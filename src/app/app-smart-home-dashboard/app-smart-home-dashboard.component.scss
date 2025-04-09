@@ -1,0 +1,148 @@
+body {
+    background-color: #f5f7fa;
+  }
+  
+  /* DASHBOARD CONTAINER */
+  .dashboard-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    background-color: #2e3b4e; /* Dark sidebar background */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  /* SIDEBAR - TITLE */
+  .sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+  }
+  
+  /* SIDEBAR - NAVIGATION */
+  .sidebar nav ul {
+    list-style: none;
+  }
+  
+  .sidebar nav ul li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar nav ul li a {
+    text-decoration: none;
+    color: #d1d5db;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar nav ul li a:hover {
+    background-color: #39475f;
+    color: #fff;
+  }
+  
+  /* MAIN CONTENT */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Scroll if content overflows */
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  .navbar h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  /* LOGOUT BUTTON */
+  .logout-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* DEVICES SECTION */
+  .devices {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .devices h2 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  
+  /* DEVICE GRID */
+  .device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  /* DEVICE CARD */
+  .device-card {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .device-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .device-card h3 {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* TOGGLE BUTTON */
+  .toggle-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #218838;
+  }

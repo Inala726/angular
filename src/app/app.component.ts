@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SmartHomeDashboardComponent } from './app-smart-home-dashboard/app-smart-home-dashboard.component';
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { HeroComponent } from "./components/hero/hero.component";
+import { FeaturesComponent } from "./components/features/features.component";
+import { HomepageComponent } from './homepage/homepage.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SmartHomeDashboardComponent],
+  imports: [NavbarComponent, RouterOutlet],
   template: `
-    <smart-home-dashboard/>
+  <app-navbar/>
+  <router-outlet/>
   `,
   styles: [],
 })

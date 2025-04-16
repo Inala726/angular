@@ -1,7 +1,16 @@
-
 <header class="navbar">
     <div class="logo" routerLink="/">S-HOME</div>
-    <nav>
+  
+    <!-- Hamburger Icon -->
+    <ng-icon
+      name="ionMenu"
+      class="hamburger"
+      (click)="toggleMenu()"
+      aria-label="Toggle Navigation"
+    ></ng-icon>
+  
+    <!-- Collapsible Navigation -->
+    <nav [class.active]="isMenuOpen">
       <ul>
         <li>About Us</li>
         <li>How it works</li>

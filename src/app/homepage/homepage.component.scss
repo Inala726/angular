@@ -3,17 +3,19 @@ $secondary: #f4f4f4;
 $dark: #222;
 $light: #fff;
 
+//body
+
+// HERO SECTION
 .hero-section {
   background-image: url("/hero-image.png");
   color: $light;
   text-align: center;
   height: 500px;
   width: 100%;
-  border-radius: 8px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #0018f18a;
-  //   background-blend-mode: darken;
+    background-blend-mode: darken;
   background-position: center;
   padding: 50px;
   display: flex;
@@ -50,6 +52,7 @@ $light: #fff;
   }
 }
 
+// FEATURES SECTION
 .features-section {
   padding: 4rem 1rem;
   background-color: $secondary;
@@ -105,6 +108,7 @@ $light: #fff;
   }
 }
 
+// INSTALL SECTION
 .install-section {
   padding: 4rem 1rem;
 
@@ -182,6 +186,7 @@ $light: #fff;
   }
 }
 
+// LIFESTYLE ENHANCEMENT
 .lifestyle-enhancement {
   background: #f9fafb;
   margin-top: 30px;
@@ -196,6 +201,7 @@ $light: #fff;
   .text {
     width: 500px;
   }
+
   .subheading {
     font-size: 14px;
     letter-spacing: 2px;
@@ -258,6 +264,7 @@ $light: #fff;
   }
 }
 
+// CTA SECTION
 .cta-section {
   color: $light;
   height: 300px;
@@ -266,7 +273,7 @@ $light: #fff;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #0018f18a;
-    background-blend-mode: darken;
+  background-blend-mode: darken;
   background-position: center;
   padding: 50px;
   display: flex;
@@ -293,6 +300,7 @@ $light: #fff;
   }
 }
 
+// FOOTER SECTION
 .footer {
   background: $light;
   color: $dark;
@@ -311,5 +319,108 @@ $light: #fff;
         text-decoration: underline;
       }
     }
+  }
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  // HERO SECTION
+  .hero-section {
+    height: auto;
+    padding: 30px;
+    .hero-content {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .primary-btn {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  // FEATURES SECTION
+  .features-section {
+    padding: 2rem 1rem;
+    .text {
+      font-size: 1.8rem;
+    }
+    .features-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .feature-box {
+      width: 100%;
+      height: auto;
+      padding: 1rem;
+    }
+  }
+
+  // INSTALL SECTION
+  .install-section {
+    padding: 2rem 1rem;
+    .install-content {
+      flex-direction: column;
+      padding: 0;
+      gap: 20px;
+    }
+    .img-cont {
+      img {
+        height: auto;
+        width: 100%;
+      }
+    }
+    .inst-text {
+      .text {
+        .p1 {
+          font-size: 20px;
+        }
+        p {
+          font-size: 14px;
+        }
+      }
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  // LIFESTYLE ENHANCEMENT SECTION
+  .lifestyle-enhancement {
+    padding: 2rem 1rem;
+    .text {
+      width: 100%;
+      text-align: center;
+    }
+    .heading, .description {
+      text-align: center;
+      font-size: 1.8rem;
+    }
+    .lifestyle-content {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  // CTA SECTION
+  .cta-section {
+    height: auto;
+    padding: 2rem 1rem;
+    h2 {
+      font-size: 1.8rem;
+    }
+    .primary-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  // FOOTER SECTION
+  .footer {
+    padding: 1rem;
+    font-size: 0.9rem;
   }
 }

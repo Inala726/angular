@@ -1,0 +1,49 @@
+footer {
+    padding: 20px 5%;
+    padding-top: 70px;
+    background-color: #4460ef;
+    color: whitesmoke;
+  
+    .content {
+      display: flex;
+      gap: 80px;
+  
+      .logo_content {
+        width: 400px;
+      }
+  
+      ul {
+        list-style: none;
+  
+        li {
+          margin-top: 15px;
+  
+          a {
+            text-decoration: none;
+            color: whitesmoke;
+            white-space: nowrap;
+          }
+        }
+      }
+  
+      .socials_container {
+        display: flex;
+        gap: 20px;
+        font-size: 27px;
+        margin-top: 15px;
+        width: 100%;
+        justify-content: right;
+  
+        a {
+          color: rgb(64, 64, 64);
+        }
+      }
+    }
+  
+    .copyright_container {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  }
+  

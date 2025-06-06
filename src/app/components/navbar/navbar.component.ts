@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {ionMenu} from '@ng-icons/ionicons';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [NgIcon],
+  imports: [NgIcon, RouterLink],
   viewProviders: [provideIcons({ionMenu})],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

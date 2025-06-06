@@ -1,0 +1,111 @@
+<div class="signup-wrapper">
+  <div class="signup-card">
+    <!-- Left Blue Panel -->
+    <div class="left-panel">
+      <img src="/side-ting.png" alt="Illustration" class="illustration" />
+      <h2 class="left-heading">One click to go all digital.</h2>
+    </div>
+
+    <!-- Right White Panel (Form) -->
+    <div class="right-panel">
+      <h3 class="form-title">Sign up</h3>
+      <form 
+        class="signup-form" 
+        [formGroup]="signupForm" 
+        (ngSubmit)="onSubmit()"
+        novalidate
+      >
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstName" class="label">First Name</label>
+          <input
+            id="firstName"
+            type="text"
+            class="input"
+            formControlName="firstName"
+            placeholder="Enter your first name"
+            [ngClass]="{ 'error-input': firstNameErrors }"
+          />
+          <div *ngIf="firstNameErrors" class="error-message">
+            <div *ngFor="let error of firstNameErrors">{{ error }}</div>
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="lastName" class="label">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            class="input"
+            formControlName="lastName"
+            placeholder="Enter your last name"
+            [ngClass]="{ 'error-input': lastNameErrors }"
+          />
+          <div *ngIf="lastNameErrors" class="error-message">
+            <div *ngFor="let error of lastNameErrors">{{ error }}</div>
+          </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="form-group">
+          <label for="email" class="label">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            class="input"
+            formControlName="email"
+            placeholder="Enter your email"
+            [ngClass]="{ 'error-input': emailErrors }"
+          />
+          <div *ngIf="emailErrors" class="error-message">
+            <div *ngFor="let error of emailErrors">{{ error }}</div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password" class="label">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="input"
+            formControlName="password"
+            placeholder="Enter your password"
+            [ngClass]="{ 'error-input': passwordErrors }"
+          />
+          <div *ngIf="passwordErrors" class="error-message">
+            <div *ngFor="let error of passwordErrors">{{ error }}</div>
+          </div>
+        </div>
+
+        <!-- Terms Text -->
+        <p class="terms-text">
+          You are agreeing to the
+          <a href="#" class="terms-link">Terms of Services</a> and
+          <a href="#" class="terms-link">Privacy Policy</a>.
+        </p>
+
+        <!-- API Response Message -->
+        <div *ngIf="apiMessage" class="api-message" [ngClass]="apiMessageClass">
+          {{ apiMessage }}
+        </div>
+
+        <!-- Get Started Button -->
+        <button 
+          type="submit" 
+          class="btn-getStarted"
+          [disabled]="loading"
+        >
+          <span *ngIf="loading" class="spinner"></span>
+          {{ loading ? 'Processing...' : 'Get Started' }}
+        </button>
+
+        <!-- Sign In Link -->
+        <p class="signin-text">
+          Already a member? <span routerLink="/signin" class="signin-link">Sign in</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

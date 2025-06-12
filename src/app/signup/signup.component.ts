@@ -148,13 +148,13 @@ export class SignupComponent implements OnInit {
         return `${fieldDisplayName} cannot be empty or contain only spaces`;
       case 'invalidDomain':
         return 'Please use a valid email provider';
-      case 'strongPassword':
-        const missing = [];
-        if (!errorValue.hasUpperCase) missing.push('uppercase letter');
-        if (!errorValue.hasLowerCase) missing.push('lowercase letter');
-        if (!errorValue.hasNumeric) missing.push('number');
-        if (!errorValue.hasSpecial) missing.push('special character');
-        return `Password must contain: ${missing.join(', ')}`;
+      // case 'strongPassword':
+      //   const missing = [];
+      //   if (!errorValue.hasUpperCase) missing.push('uppercase letter');
+      //   if (!errorValue.hasLowerCase) missing.push('lowercase letter');
+      //   if (!errorValue.hasNumeric) missing.push('number');
+      //   if (!errorValue.hasSpecial) missing.push('special character');
+      //   return `Password must contain: ${missing.join(', ')}`;
       default:
         return `${fieldDisplayName} is invalid`;
     }

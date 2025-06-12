@@ -14,3 +14,5 @@ export interface ApiResponse {
   message: string;
   data?: any; // For additional data if needed
 }
+
+// export interface

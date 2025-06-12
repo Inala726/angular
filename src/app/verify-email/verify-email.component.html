@@ -1,0 +1,35 @@
+<div class="body">
+  <form class="form" (ngSubmit)="onSubmit()">
+    <div class="title">OTP</div>
+    <div class="title">Verification Code</div>
+    <p class="message">
+      We sent a code to <strong>{{ email }}</strong>
+    </p>
+
+    <div class="inputs">
+      <input formControlName="code0" type="text" maxlength="1" />
+      <input formControlName="code1" type="text" maxlength="1" />
+      <input formControlName="code2" type="text" maxlength="1" />
+      <input formControlName="code3" type="text" maxlength="1" />
+      <input formControlName="code4" type="text" maxlength="1" />
+      <input formControlName="code5" type="text" maxlength="1" />
+    </div>
+
+    <div *ngIf="apiError" class="error-message">{{ apiError }}</div>
+
+    <button type="submit" class="action" [disabled]="loading">
+      {{ loading ? 'Verifying…' : 'Verify Email' }}
+    </button>
+
+    <!-- Resend OTP -->
+    <button
+      type="button"
+      class="resend-btn"
+      (click)="onResend()"
+      [disabled]="resendLoading"
+    >
+      {{ resendLoading ? 'Resending…' : 'Resend OTP' }}
+    </button>
+    <div *ngIf="resendMessage" class="resend-message">{{ resendMessage }}</div>
+  </form>
+</div>

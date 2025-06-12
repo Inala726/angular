@@ -2,7 +2,7 @@
   <div class="signup-card">
     <!-- Left Blue Panel -->
     <div class="left-panel">
-      <img src="/side-ting.png" alt="Illustration" class="illustration" />
+      <img src="/side-tings.png" alt="Illustration" class="illustration" />
       <h2 class="left-heading">One click to go all digital.</h2>
     </div>
 
@@ -24,7 +24,7 @@
             class="input"
             formControlName="firstName"
             placeholder="Enter your first name"
-            [ngClass]="{ 'error-input': firstNameErrors }"
+            [class.error-input]="firstNameErrors.length > 0 && (signupForm.get('firstName')!.touched || isFormSubmitted)"
           />
           <div *ngIf="firstNameErrors" class="error-message">
             <div *ngFor="let error of firstNameErrors">{{ error }}</div>
@@ -40,7 +40,7 @@
             class="input"
             formControlName="lastName"
             placeholder="Enter your last name"
-            [ngClass]="{ 'error-input': lastNameErrors }"
+            [class.error-input]="lastNameErrors.length > 0 && (signupForm.get('lastName')!.touched || isFormSubmitted)"
           />
           <div *ngIf="lastNameErrors" class="error-message">
             <div *ngFor="let error of lastNameErrors">{{ error }}</div>
@@ -56,7 +56,7 @@
             class="input"
             formControlName="email"
             placeholder="Enter your email"
-            [ngClass]="{ 'error-input': emailErrors }"
+            [class.error-input]="emailErrors.length > 0 && (signupForm.get('email')!.touched || isFormSubmitted)"
           />
           <div *ngIf="emailErrors" class="error-message">
             <div *ngFor="let error of emailErrors">{{ error }}</div>
@@ -72,7 +72,7 @@
             class="input"
             formControlName="password"
             placeholder="Enter your password"
-            [ngClass]="{ 'error-input': passwordErrors }"
+            [class.error-input]="passwordErrors.length > 0 && (signupForm.get('password')!.touched || isFormSubmitted)"
           />
           <div *ngIf="passwordErrors" class="error-message">
             <div *ngFor="let error of passwordErrors">{{ error }}</div>

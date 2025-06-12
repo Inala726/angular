@@ -5,6 +5,9 @@ $light-gray: #f1f5f9;
 $text-dark: #1f2937;
 $text-muted: #4b5563;
 $input-border: #d1d5db;
+$text-dark: #111827;
+$input-border: #d1d5db;
+$error-red: #dc2626;
 
 // Wrapper centers the card on page
 .signup-wrapper {
@@ -86,19 +89,24 @@ $input-border: #d1d5db;
       }
 
       .input {
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-        border: 1px solid $input-border;
-        border-radius: 8px;
-        color: $text-dark;
-        transition: border-color 0.2s;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid $input-border;  // default border
+      border-radius: 8px;
+      color: $text-dark;
+      transition: border-color 0.2s;
 
-        &:focus {
-          outline: none;
-          border-color: $primary-blue;
-        }
+      &:focus {
+        outline: none;
+        border-color: $primary-blue;
+      }
+
+      // **Only** show red border when invalid AND touched
+      &.ng-invalid.ng-touched {
+        border-color: $error-red;
       }
     }
+  }
 
     .terms-text {
       font-size: 0.8rem;

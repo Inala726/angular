@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { mapToCanActivate, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -38,5 +39,6 @@ export const routes: Routes = [
       );
       return m.SmartHomeDashboardComponent;
     },
+    canActivate:[AuthGuard]
   },
 ];

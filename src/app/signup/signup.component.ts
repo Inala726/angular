@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { ApiResponse, SignUpRequest } from '../baseUrl';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -21,8 +27,6 @@ export class SignupComponent implements OnInit {
   loading = false;
   apiMessage = '';
   apiMessageClass = '';
-  
-  // Form state tracking
   isFormSubmitted = false;
   isFormValid = false;
   submissionAttempts = 0;
@@ -52,19 +56,16 @@ export class SignupComponent implements OnInit {
       ]],
       password: ['', [
         Validators.required,
-        Validators.minLength(8),
-        // this.strongPasswordValidator
+        Validators.minLength(8)
       ]]
     });
   }
 
   ngOnInit() {
-    // Track form validity changes
     this.signupForm.statusChanges.subscribe(status => {
       this.isFormValid = status === 'VALID';
     });
 
-    // Log form changes for debugging
     this.signupForm.valueChanges.subscribe(values => {
       console.log('Form values changed:', values);
       console.log('Form valid:', this.signupForm.valid);
@@ -72,7 +73,6 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  // Custom Validators
   noWhitespaceValidator(control: AbstractControl) {
     const value = control.value;
     if (value && value.trim().length === 0) {
@@ -85,114 +85,51 @@ export class SignupComponent implements OnInit {
     const value = control.value;
     if (value && value.includes('@')) {
       const domain = value.split('@')[1];
-      const allowedDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];
-      // Optional: restrict to certain domains
-      // if (!allowedDomains.includes(domain)) {
-      //   return { invalidDomain: true };
-      // }
+      const allowed = ['gmail.com','yahoo.com','hotmail.com','outlook.com'];
+      // if (!allowed.includes(domain)) return { invalidDomain: true };
     }
     return null;
   }
 
-  // strongPasswordValidator(control: AbstractControl) {
-  //   const value = control.value;
-  //   if (!value) return null;
-
-  //   const hasUpperCase = /[A-Z]/.test(value);
-  //   const hasLowerCase = /[a-z]/.test(value);
-  //   const hasNumeric = /[0-9]/.test(value);
-  //   const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
-
-  //   const passwordValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
-
-  //   if (!passwordValid) {
-  //     return {
-  //       strongPassword: {
-  //         hasUpperCase,
-  //         hasLowerCase,
-  //         hasNumeric,
-  //         hasSpecial
-  //       }
-  //     };
-  //   }
-  //   return null;
-  // }
-
-  // Improved error message getters
   getFieldErrors(fieldName: string): string[] {
     const control = this.signupForm.get(fieldName);
     const errors: string[] = [];
-
     if (control && control.errors && (control.touched || this.isFormSubmitted)) {
       Object.keys(control.errors).forEach(key => {
         errors.push(this.getErrorMessage(fieldName, key, control.errors![key]));
       });
     }
-
     return errors;
   }
 
-  private getErrorMessage(fieldName: string, errorKey: string, errorValue: any): string {
-    const fieldDisplayName = this.getFieldDisplayName(fieldName);
-    
-    switch (errorKey) {
-      case 'required':
-        return `${fieldDisplayName} is required`;
-      case 'minlength':
-        return `${fieldDisplayName} must be at least ${errorValue.requiredLength} characters`;
-      case 'maxlength':
-        return `${fieldDisplayName} must not exceed ${errorValue.requiredLength} characters`;
-      case 'email':
-        return 'Please enter a valid email address';
-      case 'whitespace':
-        return `${fieldDisplayName} cannot be empty or contain only spaces`;
-      case 'invalidDomain':
-        return 'Please use a valid email provider';
-      // case 'strongPassword':
-      //   const missing = [];
-      //   if (!errorValue.hasUpperCase) missing.push('uppercase letter');
-      //   if (!errorValue.hasLowerCase) missing.push('lowercase letter');
-      //   if (!errorValue.hasNumeric) missing.push('number');
-      //   if (!errorValue.hasSpecial) missing.push('special character');
-      //   return `Password must contain: ${missing.join(', ')}`;
-      default:
-        return `${fieldDisplayName} is invalid`;
+  private getErrorMessage(field: string, key: string, val: any): string {
+    const nameMap: Record<string,string> = {
+      firstName:'First name', lastName:'Last name', email:'Email', password:'Password'
+    };
+    const display = nameMap[field] || field;
+    switch(key) {
+      case 'required':    return `${display} is required`;
+      case 'minlength':   return `${display} must be at least ${val.requiredLength} characters`;
+      case 'maxlength':   return `${display} must not exceed ${val.requiredLength} characters`;
+      case 'email':       return 'Please enter a valid email address';
+      case 'whitespace':  return `${display} cannot be just spaces`;
+      case 'invalidDomain': return 'Please use a supported email provider';
+      default:            return `${display} is invalid`;
     }
   }
 
-  private getFieldDisplayName(fieldName: string): string {
-    const displayNames: { [key: string]: string } = {
-      firstName: 'First name',
-      lastName: 'Last name',
-      email: 'Email',
-      password: 'Password'
-    };
-    return displayNames[fieldName] || fieldName;
-  }
-
-  // Helper properties for template
   get firstNameErrors() { return this.getFieldErrors('firstName'); }
-  get lastNameErrors() { return this.getFieldErrors('lastName'); }
-  get emailErrors() { return this.getFieldErrors('email'); }
-  get passwordErrors() { return this.getFieldErrors('password'); }
+  get lastNameErrors()  { return this.getFieldErrors('lastName'); }
+  get emailErrors()     { return this.getFieldErrors('email'); }
+  get passwordErrors()  { return this.getFieldErrors('password'); }
 
-  // Form submission tracking
   onSubmit() {
     this.isFormSubmitted = true;
     this.submissionAttempts++;
-    
-    console.log('=== FORM SUBMISSION ATTEMPT ===');
-    console.log('Attempt #:', this.submissionAttempts);
-    console.log('Form Valid:', this.signupForm.valid);
-    console.log('Form Values:', this.signupForm.value);
-    console.log('Form Errors:', this.getFormErrors());
-    
-    // Mark all fields as touched to show errors
     this.markAllFieldsAsTouched();
 
     if (this.signupForm.invalid) {
       this.showApiMessage('Please fix the form errors below', 'error');
-      console.log('❌ Form submission failed - validation errors');
       return;
     }
 
@@ -204,45 +141,32 @@ export class SignupComponent implements OnInit {
       role: 'USER'
     };
 
-    console.log('✅ Form is valid, sending to API...');
-    console.log('Payload:', formData);
-
     this.authService.userSignUp(formData).subscribe({
-      next: (response: ApiResponse) => {
+      next: (resp: ApiResponse) => {
         this.loading = false;
-        console.log('🎉 API Response:', response);
-        
-        if (!response.error) {
-          this.showApiMessage(response.message, 'success');
-          console.log('✅ Registration successful!');
-          
-          // Reset form state
+        if (!resp.error) {
+          this.showApiMessage(resp.message, 'success');
           this.resetFormState();
-          
           setTimeout(() => {
-            console.log('🔄 Redirecting to verification page...');
+            // === FIX: use queryParams instead of state ===
             this.router.navigate(['/verify-email'], {
-              state: { email: formData.email }
+              queryParams: { email: formData.email }
             });
           }, 1500);
         } else {
-          this.showApiMessage(response.message, 'error');
-          console.log('❌ Registration failed:', response.message);
+          this.showApiMessage(resp.message, 'error');
         }
       },
-      error: (error) => {
+      error: (err) => {
         this.loading = false;
-        const message = error.message || 'Registration failed. Please try again.';
-        this.showApiMessage(message, 'error');
-        console.log('💥 API Error:', error);
+        this.showApiMessage(err.message || 'Registration failed. Please try again.', 'error');
       }
     });
   }
 
   private markAllFieldsAsTouched() {
-    Object.keys(this.signupForm.controls).forEach(key => {
-      this.signupForm.get(key)?.markAsTouched();
-    });
+    Object.values(this.signupForm.controls)
+          .forEach(ctrl => ctrl.markAsTouched());
   }
 
   private resetFormState() {
@@ -250,10 +174,11 @@ export class SignupComponent implements OnInit {
     this.submissionAttempts = 0;
     this.signupForm.reset();
     this.apiMessage = '';
+    this.apiMessageClass = '';
   }
 
-  private showApiMessage(message: string, type: 'success' | 'error') {
-    this.apiMessage = message;
+  private showApiMessage(msg: string, type: 'success'|'error') {
+    this.apiMessage = msg;
     this.apiMessageClass = type;
     setTimeout(() => {
       this.apiMessage = '';
@@ -261,27 +186,22 @@ export class SignupComponent implements OnInit {
     }, 5000);
   }
 
-  // Debug helper
   getFormErrors(): any {
-    let errors: any = {};
-    Object.keys(this.signupForm.controls).forEach(key => {
-      const control = this.signupForm.get(key);
-      if (control && control.errors) {
-        errors[key] = control.errors;
-      }
+    const e: Record<string,any> = {};
+    Object.keys(this.signupForm.controls).forEach(k => {
+      const c = this.signupForm.get(k);
+      if (c?.errors) e[k] = c.errors;
     });
-    return errors;
+    return e;
   }
 
-  // Method to check if form can be submitted
   canSubmit(): boolean {
     return this.signupForm.valid && !this.loading;
   }
 
-  // Method to get form submission status
   getSubmissionStatus(): string {
-    if (this.loading) return 'Submitting...';
-    if (this.isFormSubmitted && this.signupForm.valid) return 'Form submitted successfully!';
+    if (this.loading) return 'Submitting…';
+    if (this.isFormSubmitted && this.signupForm.valid)   return 'Form submitted successfully!';
     if (this.isFormSubmitted && this.signupForm.invalid) return 'Form has errors';
     return 'Ready to submit';
   }

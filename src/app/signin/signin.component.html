@@ -1,57 +1,72 @@
-<body>
-  <div class="login-wrapper">
-    <div class="login-card">
-      <!-- ───────── Left Panel: Simple Login Form ───────── -->
-      <div class="left-panel">
-        <h3 class="form-title">Log in</h3>
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="left-panel">
+      <h3 class="form-title">Log in</h3>
 
-        <form class="login-form">
-          <!-- Email Address -->
-          <div class="form-group">
-            <label for="email" class="label">Email Address</label>
-            <input
-              id="email"
-              type="email"
-              class="input"
-              placeholder="Enter your email"
-            />
+      <form
+        class="login-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="email" class="label">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="input"
+            placeholder="Enter your email"
+          />
+          <div class="error" *ngIf="email?.touched && email?.invalid">
+            <small *ngIf="email?.errors?.['required']">Email is required.</small>
+            <small *ngIf="email?.errors?.['email']">Enter a valid email.</small>
           </div>
+        </div>
 
-          <!-- Password -->
-          <div class="form-group">
-            <label for="password" class="label">Password</label>
-            <input
-              id="password"
-              type="password"
-              class="input"
-              placeholder="Enter your password"
-            />
+        <div class="form-group">
+          <label for="password" class="label">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="input"
+            placeholder="Enter your password"
+          />
+          <div class="error" *ngIf="password?.touched && password?.invalid">
+            <small>Password is required.</small>
           </div>
+        </div>
 
-          <!-- “Keep me logged in” & “Forgot your password?” -->
-          <div class="sub-options">
-            <a href="#" class="forgot-link">Forgot your password?</a>
-          </div>
+        <div class="sub-options">
+          <a href="#" class="forgot-link">Forgot your password?</a>
+        </div>
 
-          <!-- Login Button -->
-          <button type="submit" class="btn-login">Log in</button>
+        <div *ngIf="apiError" class="api-error">
+          {{ apiError }}
+        </div>
 
-          <!-- “Don’t have an account? Sign up” prompt -->
-          <p class="signup-prompt">
-            Don’t have an account?
-            <a href="#" class="signup-link">Sign up</a>
-          </p>
-        </form>
-      </div>
+        <button
+          type="submit"
+          class="btn-login"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Logging in…' : 'Log in' }}
+        </button>
 
-      <!-- ───────── Right Panel: Illustration Only ───────── -->
-      <div class="right-panel">
-        <img
-          src="side-tings.png"
-          alt="Illustration"
-          class="illustration"
-        />
-      </div>
+        <p class="signup-prompt">
+          Don’t have an account?
+          <a routerLink="/signup" class="signup-link">Sign up</a>
+        </p>
+      </form>
+    </div>
+
+    <div class="right-panel">
+      <img
+        src="side-tings.png"
+        alt="Illustration"
+        class="illustration"
+      />
     </div>
   </div>
-</body>
+</div>

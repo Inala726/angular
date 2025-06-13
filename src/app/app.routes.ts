@@ -30,4 +30,13 @@ export const routes: Routes = [
       return m.VerifyEmailComponent;
     },
   },
+  {
+    path: 'dashboard',
+    loadComponent: async () => {
+      const m = await import(
+        './app-smart-home-dashboard/app-smart-home-dashboard.component'
+      );
+      return m.SmartHomeDashboardComponent;
+    },
+  },
 ];

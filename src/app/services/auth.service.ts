@@ -3,15 +3,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { ApiResponse, AUTH_URL, SignUpRequest } from '../baseUrl';
+import { ApiResponse, AUTH_URL, LoginRequest, LoginResponse, SignUpRequest } from '../baseUrl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private signupUrl = `${AUTH_URL}/sign-up`;
-  private verifyOtpUrl = `${AUTH_URL}/verify-otp`;
+  private verifyOtpUrl = `${AUTH_URL}/verify-email`;
   private resendOtpUrl = `${AUTH_URL}/resend-otp`;
+  private loginUrl = `${AUTH_URL}/login`;
 
   constructor(private http: HttpClient) {}
 
@@ -22,20 +23,31 @@ export class AuthService {
     );
   }
 
-  verifyOtp(payload: { email: string; code: string }): Observable<ApiResponse> {
+  verifyOtp(payload: { email: string; otp: string }): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.verifyOtpUrl, payload).pipe(
       tap(res => console.log('OTP verification:', res)),
       catchError(this.handleError)
     );
   }
 
-  /** New: Resend the OTP email */
   resendOtp(email: string): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.resendOtpUrl, { email }).pipe(
       tap(res => console.log('Resend OTP response:', res)),
       catchError(this.handleError)
     );
   }
+
+  userSignIn(data:LoginRequest):Observable<LoginResponse>{
+    return this.http.post<LoginResponse>(this.loginUrl, data).pipe(
+      tap(res => {
+        // store tokens in localStorage (or a more secure storage)
+        localStorage.setItem('accessToken', res.accessToken);
+        localStorage.setItem('refreshToken', res.refreshToken);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('API Error:', error);

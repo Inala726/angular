@@ -1,37 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.scss']
 })
 export class VerifyEmailComponent implements OnInit {
   otpForm!: FormGroup;
-  apiError = '';
-  loading = false;
   email = '';
+  loading = false;
+  apiError = '';
   resendLoading = false;
   resendMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute    // ← added
   ) {}
 
   ngOnInit() {
-    const nav = this.router.getCurrentNavigation();
-    this.email = (nav?.extras.state as any)?.email || '';
+    // Read the email from query parameters (?email=...)
+    this.route.queryParams.subscribe(params => {
+      this.email = params['email'] || '';
+    });
 
     this.otpForm = this.fb.group({
       code0: ['', [Validators.required, Validators.maxLength(1)]],
@@ -43,9 +42,18 @@ export class VerifyEmailComponent implements OnInit {
     });
   }
 
-  get code() {
+  get code(): string {
     const v = this.otpForm.value;
     return `${v.code0}${v.code1}${v.code2}${v.code3}${v.code4}${v.code5}`;
+  }
+
+  autoFocus(
+    currentInput: HTMLInputElement,
+    nextInput: HTMLInputElement | null
+  ) {
+    if (currentInput.value && nextInput) {
+      nextInput.focus();
+    }
   }
 
   onSubmit() {
@@ -53,31 +61,30 @@ export class VerifyEmailComponent implements OnInit {
     this.loading = true;
     this.apiError = '';
 
-    this.auth.verifyOtp({ email: this.email, code: this.code })
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.router.navigate(['/login']);
-        },
-        error: err => {
-          this.loading = false;
-          this.apiError = err.message;
-        }
-      });
+    this.auth.verifyOtp({ email: this.email, otp: this.code }).subscribe({
+      next: () => {
+        this.loading = false;
+        // Redirect to login with email prefill
+        this.router.navigate(['/signin']);
+      },
+      error: err => {
+        this.loading = false;
+        this.apiError = err.message;
+      }
+    });
   }
 
-  /** New: resend the OTP */
   onResend() {
     this.resendLoading = true;
     this.resendMessage = '';
     this.auth.resendOtp(this.email).subscribe({
       next: res => {
         this.resendLoading = false;
-        this.resendMessage = res.message || 'OTP resent successfully.';
+        this.resendMessage = res.message;
       },
       error: err => {
         this.resendLoading = false;
-        this.resendMessage = err.message || 'Failed to resend OTP.';
+        this.resendMessage = err.message;
       }
     });
   }

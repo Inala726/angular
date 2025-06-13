@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://secure-smart-home.onrender.com';
+export const BASE_URL = 'https://secure-smart-home.onrender.com/api1/v1';
 export const AUTH_URL = `${BASE_URL}/auth`;
 
 export interface SignUpRequest {

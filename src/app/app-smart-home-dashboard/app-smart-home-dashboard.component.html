@@ -1,43 +1,68 @@
-<div class="dashboard-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h2>Smart Home</h2>
-        <nav>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Devices</a></li>
-                <li><a href="#">Energy Monitoring</a></li>
-                <li><a href="#">Security</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </nav>
-    </aside>
+<div class="dashboard-wrapper">
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <div class="title-group">
+      <div class="icon">
+        <ng-icon name="heroHome" size="30" color="#fff"></ng-icon>
+      </div>
+      <div>
+        <h1 class="dashboard-title">Smart Home Dashboard</h1>
+        <p class="dashboard-subtitle">
+          Welcome back, {{ firstName || 'Guest' }}
+        </p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="toggleModal()">
+        <ng-icon name="bootstrapPlus" size="20" color="#fff"></ng-icon>
+        Add Device
+      </button>
+      <button class="btn btn-icon" aria-label="Notifications">
+        <ng-icon name="bootstrapBell" size="18" color="#2563eb"></ng-icon>
+      </button>
+      <button class="btn btn-icon settings" aria-label="Logout">
+        <ng-icon name="monoLogOut" size="18" color="red"></ng-icon>
+      </button>
+    </div>
+  </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Navbar -->
-        <header class="navbar">
-            <h1>Dashboard</h1>
-            <button class="logout-btn">Logout</button>
-        </header>
+  <!-- REGISTERED DEVICES (full‑width) -->
+  <section class="card registered-devices">
+    <header class="card-header">
+      <h2>Registered Devices ({{ devices.length }})</h2>
+      <p>Manage all your smart home devices</p>
+    </header>
+    <div class="card-body">
+      <table class="device-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Protocol</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of devices">
+            <td>{{ d.name }}</td>
+            <td>{{ d.protocol }}</td>
+            <td>{{ d.status }}</td>
+            <td>
+              <button class="btn-sm">Toggle</button>
+              <button class="btn-sm">Edit</button>
+              <button class="btn-sm btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+  </section>
 
-        <!-- Devices Section -->
-        <section class="devices">
-            <h2>Connected Devices</h2>
-            <div class="device-grid">
-                <div class="device-card">
-                    <h3>Living Room Light</h3>
-                    <button class="toggle-btn">ON/OFF</button>
-                </div>
-                <div class="device-card">
-                    <h3>Thermostat</h3>
-                    <button class="toggle-btn">ON/OFF</button>
-                </div>
-                <div class="device-card">
-                    <h3>Security Camera</h3>
-                    <button class="toggle-btn">ON/OFF</button>
-                </div>
-            </div>
-        </section>
-    </main>
+  <!-- DEVICE REGISTRATION MODAL -->
+  <app-device-registration-modal
+    [isOpen]="isModalOpen"
+    (close)="toggleModal()"
+    (added)="onDeviceAdded($event)">
+  </app-device-registration-modal>
 </div>

@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { ApiResponse, SignUpRequest } from '../baseUrl';
+import { ApiResponse, SignUpRequest } from '../types';
 
 @Component({
   selector: 'app-signup',

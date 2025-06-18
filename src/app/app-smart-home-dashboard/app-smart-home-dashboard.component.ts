@@ -1,30 +1,48 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { bootstrapBell, bootstrapGear, bootstrapHouse, bootstrapPlus } from '@ng-icons/bootstrap-icons';
+import { heroHome } from '@ng-icons/heroicons/outline';
+import {monoLogOut} from '@ng-icons/mono-icons'
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { DevicesService } from '../services/devices.service';
+import { Device, UserProfile } from '../types';
+import { DeviceRegistrationModalComponent } from "../components/device-registration-modal/device-registration-modal.component";
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'smart-home-dashboard',
-  imports: [],
+  imports: [NgIcon, CommonModule, DeviceRegistrationModalComponent],
+  viewProviders: [provideIcons({bootstrapHouse, heroHome, bootstrapBell, bootstrapGear, bootstrapPlus, monoLogOut})],
   templateUrl: './app-smart-home-dashboard.component.html',
   styleUrl: './app-smart-home-dashboard.component.scss',
 })
 export class SmartHomeDashboardComponent implements OnInit {
-  devices = [
-    { name: 'Living Room Light', status: 'On', type: 'Light' },
-    { name: 'Thermostat', status: '22°C', type: 'Temperature' },
-    { name: 'Front Door Lock', status: 'Locked', type: 'Security' },
-  ];
+  firstName = '';
+  devices: Device[] = [];
+  isModalOpen = false;
+  error = '';
 
-  alerts = [
-    { message: 'Motion detected at Front Door', time: new Date() },
-    { message: 'Energy consumption spike detected', time: new Date() },
-  ];
+  constructor(private devicesSvc: DevicesService, private auth: AuthService) {}
 
-  constructor() {}
+  ngOnInit() {
+    this.auth.getUserProfile().subscribe({
+      next: (user: UserProfile) => this.firstName = user.firstName,
+      error: () => this.firstName = ''
+    });
 
-  ngOnInit(): void {}
-
-  toggleDevice(device: any) {
-    if (device.type === 'Light') {
-      device.status = device.status === 'On' ? 'Off' : 'On';
-    }
+  
+    this.devicesSvc.listMine().subscribe({
+      next: devs => this.devices = devs,
+      error: err => this.error = err.message
+    });
   }
+
+  onDeviceAdded(device: Device) {
+    this.devices.unshift(device);
+  }
+
+  toggleModal() {
+    this.isModalOpen = !this.isModalOpen;
+  }  
 }

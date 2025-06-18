@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { LoginRequest } from '../baseUrl';
+import { LoginRequest } from '../types';
 
 @Component({
   selector: 'app-signin',

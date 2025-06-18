@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { ApiResponse, AUTH_URL, LoginRequest, LoginResponse, SignUpRequest } from '../baseUrl';
+import { ApiResponse, LoginRequest, LoginResponse, SignUpRequest, UserProfile } from '../types';
+import { AUTH_URL, BASE_URL } from '../baseUrl';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class AuthService {
   private verifyOtpUrl = `${AUTH_URL}/verify-email`;
   private resendOtpUrl = `${AUTH_URL}/resend-otp`;
   private loginUrl = `${AUTH_URL}/login`;
+  private profileUrl = `${BASE_URL}/users/me`
 
   constructor(private http: HttpClient) {}
 
@@ -48,6 +50,14 @@ export class AuthService {
     );
   }
 
+  getUserProfile():Observable<UserProfile>{
+    const token = localStorage.getItem('accessToken') || '';
+    return this.http
+      .get<UserProfile>(this.profileUrl, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .pipe(catchError(this.handleError));
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('API Error:', error);

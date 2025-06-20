@@ -24,7 +24,7 @@ export class DeviceRegistrationModalComponent implements OnInit {
   errorMsg = '';
 
   // these drive your two dropdowns
-  protocols = ['ZIGBEE', 'BLUETOOTH', 'WI-FI'];
+protocols = ['Zigbee','Bluetooth','Wi-Fi'];
   locations   = ['LIVING_ROOM', 'BEDROOM', 'KITCHEN', 'BATHROOM'];
 
   constructor(

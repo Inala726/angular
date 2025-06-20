@@ -6,7 +6,7 @@
         <ng-icon name="heroHome" size="30" color="#fff"></ng-icon>
       </div>
       <div>
-        <h1 class="dashboard-title">Smart Home Dashboard</h1>
+        <h1 class="dashboard-title">SmartHomeProject</h1>
         <p class="dashboard-subtitle">
           Welcome back, {{ firstName || "Guest" }}
         </p>
@@ -35,71 +35,86 @@
     <header class="card-header">
       <h2>
         <ng-icon name="heroHome" size="18" color="#fff"></ng-icon>
-        Registered Devices ({{ (devices$ | async)?.length || 0 }})
+        Registered Devices (2)
       </h2>
-      <p>Manage all your smart home devices</p>
+      <p>Manage all your smart home devices with energy monitoring and alerts</p>
     </header>
 
     <div class="card-body">
-      <ng-container *ngIf="(devices$ | async)?.length; else emptyPlaceholder">
-        <div class="device-grid">
-          <div
-            class="device-card"
-            *ngFor="let d of devices$ | async; trackBy: trackByDeviceId"
-          >
-            <div class="card-top">
-              <div class="device-info">
-                <ng-icon
-                  [name]="
-                    d.protocol === 'Zigbee' ? 'bootstrapHouse' : 'bootstrapGear'
-                  "
-                  size="20"
-                  color="#666"
-                ></ng-icon>
-                <div class="titles">
-                  <h3>{{ d.name }}</h3>
-                  <small>{{ d.location || "—" }}</small>
-                </div>
+      <div class="device-grid">
+        <!-- Living Room Device -->
+        <div class="device-card">
+          <div class="card-top">
+            <div class="device-info">
+              <ng-icon name="heroLightBulb" size="20" color="#666"></ng-icon>
+              <div class="titles">
+                <h3>Living Room</h3>
+                <small>Living Room</small>
               </div>
-              <label class="switch">
-                <input type="checkbox" [checked]="d.status === 'online'" />
-                <span class="slider round"></span>
-              </label>
-              <button class="more-btn">⋯</button>
             </div>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider round"></span>
+            </label>
+            <button class="more-btn">⋯</button>
+          </div>
 
-            <div class="chip-row">
-              <span class="chip status" [class.online]="d.status === 'online'">
-                {{ d.status }}
-              </span>
-              <span class="chip type-chip">
-                {{ d.protocol }}
-              </span>
-            </div>
+          <div class="chip-row">
+            <span class="chip status online">online</span>
+            <span class="chip type-chip">Smart Light</span>
+          </div>
 
-            <div class="actions-row">
-              <button class="btn-sm btn-update">Update</button>
-              <button class="btn-sm btn-delete">Delete</button>
-            </div>
+          <div class="stats-row">
+            <span class="energy">⚡ 2.5 kWh</span>
+            <span class="alert-count">⚠️ 1 alert</span>
+          </div>
+
+          <div class="brand-model">Philips - Hue White A19</div>
+
+          <div class="actions-row">
+            <button class="btn-sm btn-usage">Usage</button>
+            <button class="btn-sm btn-alerts">Alerts</button>
+            <button class="btn-sm btn-update">Update</button>
+            <button class="btn-sm btn-delete">Delete</button>
           </div>
         </div>
-      </ng-container>
 
-      <ng-template #emptyPlaceholder>
-        <div class="empty-placeholder">
-          <ng-icon name="bootstrapHouse" size="48" color="#ccc"></ng-icon>
-          <p>No devices registered yet.</p>
-          <button class="btn btn-primary" (click)="toggleModal()">
-            Add your first device
-          </button>
+        <!-- Bedroom Device -->
+        <div class="device-card">
+          <div class="card-top">
+            <div class="device-info">
+              <ng-icon name="bootstrapThermometerHalf" size="20" color="#666"></ng-icon>
+              <div class="titles">
+                <h3>Bedroom ...</h3>
+                <small>Bedroom</small>
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider round"></span>
+            </label>
+            <button class="more-btn">⋯</button>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip status online">online</span>
+            <span class="chip type-chip">Thermostat</span>
+          </div>
+
+          <div class="stats-row">
+            <span class="energy">⚡ 15.3 kWh</span>
+          </div>
+
+          <div class="brand-model">Nest - Learning Thermostat</div>
+
+          <div class="actions-row">
+            <button class="btn-sm btn-usage">Usage</button>
+            <button class="btn-sm btn-alerts">Alerts</button>
+            <button class="btn-sm btn-update">Update</button>
+            <button class="btn-sm btn-delete">Delete</button>
+          </div>
         </div>
-      </ng-template>
+      </div>
     </div>
   </section>
-
-  <!-- DEVICE REGISTRATION MODAL -->
-  <app-device-registration-modal
-    [isOpen]="isModalOpen"
-    (close)="toggleModal()"
-  ></app-device-registration-modal>
 </div>

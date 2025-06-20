@@ -52,7 +52,7 @@ $blue: #0450f31a;
       font-size: 0.875rem;
     }
   }
-  .actions{
+  .actions {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -95,15 +95,15 @@ $blue: #0450f31a;
     // grid of device cards
     .device-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
 
     .device-card {
       background: $white;
-      border-radius: 1rem; // more rounded
-      padding: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -116,16 +116,19 @@ $blue: #0450f31a;
         .device-info {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
 
           .titles {
             h3 {
               margin: 0;
-              font-size: 1rem;
+              font-size: 1.1rem;
+              font-weight: 600;
             }
             small {
               color: $gray-700;
-              font-size: 0.8rem;
+              font-size: 0.85rem;
+              display: block;
+              margin-top: 0.1rem;
             }
           }
         }
@@ -174,25 +177,24 @@ $blue: #0450f31a;
           font-size: 1.25rem;
           color: $gray-700;
           cursor: pointer;
+          margin-left: 0.5rem;
         }
       }
 
       .chip-row {
         display: flex;
         gap: 0.5rem;
+        margin-top: 0.25rem;
 
         .chip {
-          padding: 0.25rem 0.5rem;
+          padding: 0.3rem 0.75rem;
           border-radius: 1rem;
-          font-size: 0.75rem;
+          font-size: 0.8rem;
+          font-weight: 500;
         }
         .status.online {
           background: #d1fae5;
           color: #065f46;
-        }
-        .status.offline {
-          background: #fee2e2;
-          color: #991b1b;
         }
         .type-chip {
           background: $blue-50;
@@ -200,67 +202,90 @@ $blue: #0450f31a;
         }
       }
 
-      .actions-row {
-        margin-top: auto;
+      .stats-row {
         display: flex;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+        color: $gray-700;
+        margin: 0.5rem 0;
+
+        .energy {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+        .alert-count {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          color: #b91c1c;
+          font-weight: 500;
+        }
+      }
+
+      .brand-model {
+        font-size: 0.85rem;
+        color: $gray-700;
+        margin-bottom: 0.5rem;
+      }
+
+      .actions-row {
+        display: flex;
+        flex-wrap: wrap;
         gap: 0.5rem;
 
         .btn-sm {
           padding: 0.4rem 0.75rem;
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           border: 1px solid transparent;
-          border-radius: 0.25rem;
+          border-radius: 0.5rem;
           cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          transition: background 0.2s;
+          font-weight: 500;
+
+          &.btn-usage {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: #d1fae5;
+          }
+          &.btn-usage:hover {
+            background: #d1fae5;
+          }
+
+          &.btn-alerts {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+          }
+          &.btn-alerts:hover {
+            background: #fde68a;
+          }
 
           &.btn-update {
             background: $blue-50;
             color: $blue-600;
             border-color: $blue-600;
           }
+          &.btn-update:hover {
+            background: lighten($blue-50, 5%);
+          }
+
           &.btn-delete {
             background: $red-600;
             color: $white;
           }
+          &.btn-delete:hover {
+            background: darken($red-600, 8%);
+          }
         }
       }
     }
-
-    // empty placeholder
-    .empty-placeholder {
-      text-align: center;
-      padding: 2rem;
-      color: #777;
-
-      ng-icon {
-        display: block;
-        margin: 0 auto 1rem;
-      }
-      p {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-      }
-      .btn-primary {
-        display: inline-block;
-      }
-    }
   }
 }
 
-// small screens
-@media (max-width: 768px) {
-  .registered-devices .card-body {
-    padding: 0.75rem;
-
-    .device-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  .dashboard-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-}
 // Base “.btn” reset
 .btn {
   display: inline-flex;
@@ -287,7 +312,7 @@ $blue: #0450f31a;
 // Primary filled button
 .btn-primary {
   @extend .btn;
-  background-color: $blue-600; // your primary
+  background-color: $blue-600;
   color: $white;
 
   &:hover {
@@ -324,29 +349,18 @@ $blue: #0450f31a;
   }
 }
 
-// Small inline buttons
-.btn-sm {
-  @extend .btn;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+// small screens
+@media (max-width: 768px) {
+  .registered-devices .card-body {
+    padding: 0.75rem;
 
-  &.btn-update {
-    background: $blue-50;
-    color: $blue-600;
-    border: 1px solid $blue-600;
-
-    &:hover {
-      background: darken($blue-50, 5%);
+    .device-grid {
+      grid-template-columns: 1fr;
     }
   }
-
-  &.btn-delete {
-    background: $red-600;
-    color: $white;
-
-    &:hover {
-      background: darken($red-600, 8%);
-    }
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
   }
 }

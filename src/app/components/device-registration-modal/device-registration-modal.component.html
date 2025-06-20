@@ -1,33 +1,94 @@
-<div class="backdrop" *ngIf="isOpen">
+<div *ngIf="isOpen" class="modal-backdrop">
   <div class="modal">
-    <h2>Register New Device</h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <label>
-        Name
-        <input formControlName="name" [class.invalid]="form.get('name')?.invalid && form.get('name')?.touched" />
-      </label>
-      <label>
-        Protocol
-        <select formControlName="protocol">
-          <option value="Zigbee">Zigbee</option>
-          <option value="WiFi">WiFi</option>
-          <option value="Bluetooth">Bluetooth</option>
-        </select>
-      </label>
-      <label>
-        Status
-        <select formControlName="status">
-          <option value="offline">Offline</option>
-          <option value="online">Online</option>
-        </select>
-      </label>
-      <div class="buttons">
-        <button type="button" (click)="onCancel()">Cancel</button>
-        <button class="primary" type="submit" [disabled]="loading">
-          {{ loading ? 'Saving…' : 'Save' }}
+    <div class="modal-header">
+      <h2>
+        <ng-icon name="bootstrapPlus" size="20" color="#fff"></ng-icon>
+        Register New Device
+      </h2>
+      <button class="close-btn" (click)="closePanel()">×</button>
+    </div>
+
+    <form [formGroup]="deviceForm" (ngSubmit)="onSubmit()" class="modal-body">
+      <div class="row two-cols">
+        <!-- Device Name -->
+        <div class="col">
+          <label>Device Name <span class="required">*</span></label>
+          <input formControlName="name" placeholder="e.g., Living Room Smart Light" />
+          <div *ngIf="deviceForm.get('name')?.invalid && deviceForm.get('name')?.touched" class="error">
+            Device name is required
+          </div>
+        </div>
+
+        <!-- Device Type -->
+        <div class="col">
+          <label>Device Type <span class="required">*</span></label>
+          <select formControlName="protocol">
+            <option value="" disabled>Select device type</option>
+            <option *ngFor="let type of deviceTypes" [value]="type">{{ formatOption(type) }}</option>
+          </select>
+          <div *ngIf="deviceForm.get('protocol')?.invalid && deviceForm.get('protocol')?.touched" class="error">
+            Device type is required
+          </div>
+        </div>
+      </div>
+
+      <div class="row two-cols">
+        <!-- Location -->
+        <div class="col">
+          <label>Location <span class="required">*</span></label>
+          <select formControlName="location">
+            <option value="" disabled>Select location</option>
+            <option *ngFor="let loc of locations" [value]="loc">{{ formatOption(loc) }}</option>
+          </select>
+          <div *ngIf="deviceForm.get('location')?.invalid && deviceForm.get('location')?.touched" class="error">
+            Location is required
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="col">
+          <label>Status <span class="required">*</span></label>
+          <select formControlName="status">
+            <option value="" disabled>Select status</option>
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+          </select>
+          <div *ngIf="deviceForm.get('status')?.invalid && deviceForm.get('status')?.touched" class="error">
+            Status is required
+          </div>
+        </div>
+      </div>
+
+      <div class="row two-cols">
+        <!-- Brand -->
+        <div class="col">
+          <label>Brand</label>
+          <input formControlName="brand" placeholder="e.g., Philips, Samsung, TP-Link" />
+        </div>
+        <!-- Model -->
+        <div class="col">
+          <label>Model</label>
+          <input formControlName="model" placeholder="e.g., Hue White A19, Echo Dot 4th Gen" />
+        </div>
+      </div>
+
+      <!-- Description full width -->
+      <div class="row single-col">
+        <div class="col">
+          <label>Description</label>
+          <textarea formControlName="description" placeholder="Additional details about the device…"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closePanel()">Cancel</button>
+        <button 
+          type="submit" 
+          class="btn-submit" 
+          [disabled]="deviceForm.invalid || loading">
+            {{ loading ? 'Registering…' : 'Register Device' }}
         </button>
       </div>
-      <p class="error" *ngIf="error">{{ error }}</p>
     </form>
   </div>
 </div>

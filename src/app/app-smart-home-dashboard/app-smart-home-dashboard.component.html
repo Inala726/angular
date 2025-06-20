@@ -26,36 +26,57 @@
     </div>
   </header>
 
-  <!-- REGISTERED DEVICES (full‑width) -->
+  <!-- REGISTERED DEVICES (full-width card grid) -->
   <section class="card registered-devices">
     <header class="card-header">
-      <h2>Registered Devices ({{ devices.length }})</h2>
+      <h2>
+        <ng-icon name="heroHome" size="18" color="#fff"></ng-icon>
+        Registered Devices ({{ (devices$ | async)?.length || 0 }})
+      </h2>
       <p>Manage all your smart home devices</p>
     </header>
+
     <div class="card-body">
-      <table class="device-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Protocol</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let d of devices">
-            <td>{{ d.name }}</td>
-            <td>{{ d.protocol }}</td>
-            <td>{{ d.status }}</td>
-            <td>
-              <button class="btn-sm">Toggle</button>
-              <button class="btn-sm">Edit</button>
-              <button class="btn-sm btn-danger">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- <p class="error" *ngIf="error">{{ error }}</p> -->
+      <div class="device-grid">
+        <div class="device-card" *ngFor="let d of devices$ | async">
+          <div class="card-top">
+            <div class="device-info">
+              <ng-icon
+                [name]="d.name === 'Light' ? 'bootstrapHouse' : 'bootstrapGear'"
+                size="20"
+                color="#666"
+              ></ng-icon>
+              <div class="titles">
+                <h3>{{ d.name }}</h3>
+                <small>{{ d.location || '—' }}</small>
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [checked]="d.status==='online'" />
+              <span class="slider round"></span>
+            </label>
+            <button class="more-btn">⋯</button>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip status" [class.online]="d.status==='online'">
+              {{ d.status }}
+            </span>
+            <span class="chip type-chip">
+              {{ d.protocol }}
+            </span>
+          </div>
+
+          <div class="metadata">
+            <!-- <small>{{ d.metadata?.brand || '' }}</small> -->
+          </div>
+
+          <div class="actions-row">
+            <button class="btn-sm btn-update">Update</button>
+            <button class="btn-sm btn-delete">Delete</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -63,6 +84,5 @@
   <app-device-registration-modal
     [isOpen]="isModalOpen"
     (close)="toggleModal()"
-    (added)="onDeviceAdded($event)">
-  </app-device-registration-modal>
+  ></app-device-registration-modal>
 </div>

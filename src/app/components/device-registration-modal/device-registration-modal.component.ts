@@ -24,7 +24,7 @@ export class DeviceRegistrationModalComponent implements OnInit {
   errorMsg = '';
 
   // these drive your two dropdowns
-  deviceTypes = ['SMART_LIGHT', 'THERMOSTAT', 'CAMERA', 'LOCK', 'ELECTRONICS'];
+  protocols = ['ZIGBEE', 'BLUETOOTH', 'WI-FI'];
   locations   = ['LIVING_ROOM', 'BEDROOM', 'KITCHEN', 'BATHROOM'];
 
   constructor(

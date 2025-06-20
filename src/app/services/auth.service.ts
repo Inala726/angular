@@ -1,10 +1,11 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { ApiResponse, LoginRequest, LoginResponse, SignUpRequest, UserProfile } from '../types';
 import { AUTH_URL, BASE_URL } from '../baseUrl';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
   private loginUrl = `${AUTH_URL}/login`;
   private profileUrl = `${BASE_URL}/users/me`
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router:Router) {}
 
   userSignUp(data: SignUpRequest): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.signupUrl, data).pipe(
@@ -50,14 +51,28 @@ export class AuthService {
     );
   }
 
-  getUserProfile():Observable<UserProfile>{
+  private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('accessToken') || '';
-    return this.http
-      .get<UserProfile>(this.profileUrl, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .pipe(catchError(this.handleError));
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
+
+  logout() {
+    // 1. Remove tokens (or any other user data)
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    // 2. Navigate back to sign‑in
+    this.router.navigate(['/signin']);
+  }
+
+  getProfile(): Observable<UserProfile['data']> {
+    return this.http
+      .get<UserProfile>(this.profileUrl, { headers: this.authHeaders() })
+      .pipe(
+        map(response => response.data),
+        catchError(this.handleError)
+      );
+  }
+
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('API Error:', error);

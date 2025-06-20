@@ -52,6 +52,11 @@ $blue: #0450f31a;
       font-size: 0.875rem;
     }
   }
+  .actions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 }
 
 // registered‑devices fills full width

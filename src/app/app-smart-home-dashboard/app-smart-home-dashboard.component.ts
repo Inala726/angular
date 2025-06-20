@@ -27,12 +27,24 @@ export class SmartHomeDashboardComponent {
   ) {
     this.devices$ = this.devicesService.devices$; // Initialize after injection
   }
-
+ngOnInit() {
+    this.authService.getProfile().subscribe({
+      next: profile => this.firstName = profile.firstName,
+      error: _ => {
+        // e.g. redirect to login if 401
+        console.warn('Could not fetch profile');
+      }
+    });
+  }
   toggleModal() {
     this.isModalOpen = !this.isModalOpen;
   }
 
   trackByDeviceId(index: number, d: any) {
     return d.id;
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }

@@ -8,7 +8,7 @@
       <div>
         <h1 class="dashboard-title">Smart Home Dashboard</h1>
         <p class="dashboard-subtitle">
-          Welcome back, {{ firstName || 'Guest' }}
+          Welcome back, {{ firstName || "Guest" }}
         </p>
       </div>
     </div>
@@ -20,7 +20,11 @@
       <button class="btn btn-icon" aria-label="Notifications">
         <ng-icon name="bootstrapBell" size="18" color="#2563eb"></ng-icon>
       </button>
-      <button class="btn btn-icon settings" aria-label="Logout">
+      <button
+        class="btn btn-icon settings"
+        aria-label="Logout"
+        (click)="onLogout()"
+      >
         <ng-icon name="monoLogOut" size="18" color="red"></ng-icon>
       </button>
     </div>
@@ -39,17 +43,22 @@
     <div class="card-body">
       <ng-container *ngIf="(devices$ | async)?.length; else emptyPlaceholder">
         <div class="device-grid">
-          <div class="device-card" *ngFor="let d of devices$ | async; trackBy: trackByDeviceId">
+          <div
+            class="device-card"
+            *ngFor="let d of devices$ | async; trackBy: trackByDeviceId"
+          >
             <div class="card-top">
               <div class="device-info">
                 <ng-icon
-                  [name]="d.protocol === 'Zigbee' ? 'bootstrapHouse' : 'bootstrapGear'"
+                  [name]="
+                    d.protocol === 'Zigbee' ? 'bootstrapHouse' : 'bootstrapGear'
+                  "
                   size="20"
                   color="#666"
                 ></ng-icon>
                 <div class="titles">
                   <h3>{{ d.name }}</h3>
-                  <small>{{ d.location || '—' }}</small>
+                  <small>{{ d.location || "—" }}</small>
                 </div>
               </div>
               <label class="switch">
@@ -80,7 +89,9 @@
         <div class="empty-placeholder">
           <ng-icon name="bootstrapHouse" size="48" color="#ccc"></ng-icon>
           <p>No devices registered yet.</p>
-          <button class="btn btn-primary" (click)="toggleModal()">Add your first device</button>
+          <button class="btn btn-primary" (click)="toggleModal()">
+            Add your first device
+          </button>
         </div>
       </ng-template>
     </div>

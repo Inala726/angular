@@ -26,7 +26,7 @@
     </div>
   </header>
 
-  <!-- REGISTERED DEVICES (full-width card grid) -->
+  <!-- REGISTERED DEVICES -->
   <section class="card registered-devices">
     <header class="card-header">
       <h2>
@@ -37,46 +37,52 @@
     </header>
 
     <div class="card-body">
-      <div class="device-grid">
-        <div class="device-card" *ngFor="let d of devices$ | async">
-          <div class="card-top">
-            <div class="device-info">
-              <ng-icon
-                [name]="d.name === 'Light' ? 'bootstrapHouse' : 'bootstrapGear'"
-                size="20"
-                color="#666"
-              ></ng-icon>
-              <div class="titles">
-                <h3>{{ d.name }}</h3>
-                <small>{{ d.location || '—' }}</small>
+      <ng-container *ngIf="(devices$ | async)?.length; else emptyPlaceholder">
+        <div class="device-grid">
+          <div class="device-card" *ngFor="let d of devices$ | async; trackBy: trackByDeviceId">
+            <div class="card-top">
+              <div class="device-info">
+                <ng-icon
+                  [name]="d.protocol === 'Zigbee' ? 'bootstrapHouse' : 'bootstrapGear'"
+                  size="20"
+                  color="#666"
+                ></ng-icon>
+                <div class="titles">
+                  <h3>{{ d.name }}</h3>
+                  <small>{{ d.location || '—' }}</small>
+                </div>
               </div>
+              <label class="switch">
+                <input type="checkbox" [checked]="d.status === 'online'" />
+                <span class="slider round"></span>
+              </label>
+              <button class="more-btn">⋯</button>
             </div>
-            <label class="switch">
-              <input type="checkbox" [checked]="d.status==='online'" />
-              <span class="slider round"></span>
-            </label>
-            <button class="more-btn">⋯</button>
-          </div>
 
-          <div class="chip-row">
-            <span class="chip status" [class.online]="d.status==='online'">
-              {{ d.status }}
-            </span>
-            <span class="chip type-chip">
-              {{ d.protocol }}
-            </span>
-          </div>
+            <div class="chip-row">
+              <span class="chip status" [class.online]="d.status === 'online'">
+                {{ d.status }}
+              </span>
+              <span class="chip type-chip">
+                {{ d.protocol }}
+              </span>
+            </div>
 
-          <div class="metadata">
-            <!-- <small>{{ d.metadata?.brand || '' }}</small> -->
-          </div>
-
-          <div class="actions-row">
-            <button class="btn-sm btn-update">Update</button>
-            <button class="btn-sm btn-delete">Delete</button>
+            <div class="actions-row">
+              <button class="btn-sm btn-update">Update</button>
+              <button class="btn-sm btn-delete">Delete</button>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #emptyPlaceholder>
+        <div class="empty-placeholder">
+          <ng-icon name="bootstrapHouse" size="48" color="#ccc"></ng-icon>
+          <p>No devices registered yet.</p>
+          <button class="btn btn-primary" (click)="toggleModal()">Add your first device</button>
+        </div>
+      </ng-template>
     </div>
   </section>
 

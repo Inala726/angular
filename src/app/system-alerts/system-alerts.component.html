@@ -1,0 +1,31 @@
+<div class="section">
+  <h2>System Alerts</h2>
+  <p class="subtitle">Monitor all alerts across devices</p>
+  
+  <table class="dashboard-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Message</th>
+        <th>Device ID</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alert of alerts">
+        <td>
+          <span class="alert-type" [ngClass]="{
+            'security': alert.type === 'Security',
+            'energy': alert.type === 'Energy',
+            'maintenance': alert.type === 'Maintenance'
+          }">
+            {{ alert.type }}
+          </span>
+        </td>
+        <td>{{ alert.message }}</td>
+        <td class="device-id">{{ alert.deviceId }}</td>
+        <td>{{ alert.timestamp }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

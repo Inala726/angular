@@ -3,15 +3,17 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { ToastContainerComponent } from "./components/toast-container/toast-container.component";
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, CommonModule],
+  imports: [RouterOutlet, NavbarComponent, CommonModule, ToastContainerComponent],
   template: `
 <app-navbar *ngIf="showNavbar"/>
 <main>
   <router-outlet/>
+  <app-toast-container/>
 </main>
   `,
   styles: [],
@@ -21,7 +23,7 @@ export class AppComponent implements OnInit {
   showNavbar = true;
 
   // Routes where navbar should be hidden
-  private hiddenNavbarRoutes = ['/signin', '/signup', '/login', '/register', '/verify-email', '/dashboard'];
+  private hiddenNavbarRoutes = ['/signin', '/signup', '/login', '/register', '/verify-email', '/dashboard', '/admin/dashboard'];
 
   constructor(private router: Router) {}
 

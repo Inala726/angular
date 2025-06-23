@@ -1,0 +1,30 @@
+<div class="admin-dashboard">
+  <h1>Admin Dashboard</h1>
+  
+  <div class="navigation-tabs">
+    <button 
+      [class.active]="activeTab === 'users'" 
+      (click)="setActiveTab('users')"
+    >
+      User Management
+    </button>
+    <button 
+      [class.active]="activeTab === 'alerts'" 
+      (click)="setActiveTab('alerts')"
+    >
+      System Alerts
+    </button>
+    <button 
+      [class.active]="activeTab === 'devices'" 
+      (click)="setActiveTab('devices')"
+    >
+      Device Management
+    </button>
+  </div>
+  
+  <div class="dashboard-content">
+    <app-user-management *ngIf="activeTab === 'users'"></app-user-management>
+    <app-system-alerts *ngIf="activeTab === 'alerts'"></app-system-alerts>
+    <app-device-management *ngIf="activeTab === 'devices'"></app-device-management>
+  </div>
+</div>

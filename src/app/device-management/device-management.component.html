@@ -1,0 +1,33 @@
+<div class="section">
+  <h2>Device Management</h2>
+  <p class="subtitle">Monitor and manage all devices in the system</p>
+  
+  <table class="dashboard-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Protocol</th>
+        <th>Status</th>
+        <th>Owner ID</th>
+        <th>Device ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let device of devices">
+        <td>{{ device.name }}</td>
+        <td>{{ device.protocol }}</td>
+        <td>
+          <span class="device-status" [ngClass]="{
+            'online': device.status === 'online',
+            'offline': device.status === 'offline',
+            'maintenance': device.status === 'maintenance'
+          }">
+            {{ device.status }}
+          </span>
+        </td>
+        <td class="device-id">{{ device.ownerId }}</td>
+        <td class="device-id">{{ device.deviceId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

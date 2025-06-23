@@ -8,7 +8,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { LoginRequest } from '../types';
+import { LoginRequest, LoginResponse } from '../types';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-signin',
@@ -25,7 +26,8 @@ export class SigninComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toast:ToastService
   ) {}
 
   ngOnInit() {
@@ -49,13 +51,15 @@ export class SigninComponent implements OnInit {
 
     const payload: LoginRequest = this.loginForm.value;
     this.auth.userSignIn(payload).subscribe({
-      next: () => {
+      next: (response:LoginResponse) => {
         this.loading = false;
+        this.toast.show('Login successful', 'success')
         this.router.navigate(['/dashboard']);
       },
       error: (err: Error) => {
         this.loading = false;
-        this.apiError = err.message;
+        this.toast.show(err.message, 'error')
+        // this.apiError = err.message;
       }
     });
   }

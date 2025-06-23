@@ -29,7 +29,7 @@
 
         <!-- Device Type -->
         <div class="col">
-          <label>Device Type <span class="required">*</span></label>
+          <label>Protocol <span class="required">*</span></label>
           <select formControlName="protocol">
             <option value="" disabled>Select protocol</option>
             <option *ngFor="let type of protocols" [value]="type">

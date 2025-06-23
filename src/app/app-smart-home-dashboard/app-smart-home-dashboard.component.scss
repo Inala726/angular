@@ -92,6 +92,38 @@ $blue: #0450f31a;
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
+    // inside .registered-devices .card-body
+.empty-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: 2px dashed $gray-200;
+  border-radius: 1rem;
+  background: $gray-50;
+  color: $gray-700;
+  text-align: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  
+  ng-icon {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .btn-primary {
+    @extend .btn-primary;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
     // grid of device cards
     .device-grid {
       display: grid;

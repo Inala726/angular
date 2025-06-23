@@ -41,4 +41,13 @@ export const routes: Routes = [
     },
     canActivate:[AuthGuard]
   },
+  {
+    path: 'admin/dashboard',
+    loadComponent: async () =>{
+      const m = await import(
+        './admin-dashboard/admin-dashboard.component'
+      );
+      return m.AdminDashboardComponent
+    }
+  }
 ];

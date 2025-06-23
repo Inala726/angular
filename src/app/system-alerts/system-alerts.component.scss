@@ -1,0 +1,33 @@
+@import '../user-management/user-management.component.scss';
+
+.alert-type {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  
+  &.security {
+    background-color: #ffeef0;
+    color: #e74c3c;
+    border: 1px solid #fadbd8;
+  }
+  
+  &.energy {
+    background-color: #fff8e1;
+    color: #f39c12;
+    border: 1px solid #fdebd0;
+  }
+  
+  &.maintenance {
+    background-color: #e8f4fd;
+    color: #3498db;
+    border: 1px solid #d6eaf8;
+  }
+}
+
+.device-id {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #7f8c8d;
+}

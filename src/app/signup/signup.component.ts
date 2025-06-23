@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { ApiResponse, SignUpRequest } from '../types';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-signup',
@@ -34,7 +35,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast:ToastService
   ) {
     this.signupForm = this.fb.group({
       firstName: ['', [
@@ -145,7 +147,8 @@ export class SignupComponent implements OnInit {
       next: (resp: ApiResponse) => {
         this.loading = false;
         if (!resp.error) {
-          this.showApiMessage(resp.message, 'success');
+          this.toast.show(resp.message, 'success')
+          // this.showApiMessage(resp.message, 'success');
           this.resetFormState();
           setTimeout(() => {
             // === FIX: use queryParams instead of state ===
@@ -154,12 +157,14 @@ export class SignupComponent implements OnInit {
             });
           }, 1500);
         } else {
-          this.showApiMessage(resp.message, 'error');
+          // this.showApiMessage(resp.message, 'error');
+          this.toast.show(resp.message, 'error')
         }
       },
       error: (err) => {
         this.loading = false;
-        this.showApiMessage(err.message || 'Registration failed. Please try again.', 'error');
+        this.toast.show(err.message || 'Registration failed. Please try again.', 'error');
+        // this.showApiMessage(err.message || 'Registration failed. Please try again.', 'error');
       }
     });
   }

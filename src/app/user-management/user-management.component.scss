@@ -1,0 +1,49 @@
+.section {
+  h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .subtitle {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: 16px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .actions {
+    span {
+      margin-right: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      display: inline-block;
+      
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}

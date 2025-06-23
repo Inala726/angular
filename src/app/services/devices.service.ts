@@ -1,10 +1,14 @@
 // src/app/services/devices.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { NewDevicePayload, DeviceResponse, Device } from '../types';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { DEVICES_URL } from '../baseUrl';
 
 @Injectable({ providedIn: 'root' })
@@ -24,11 +28,16 @@ export class DevicesService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  addDevice(payload: NewDevicePayload, extras: {location:string, model?:string, description?:string}): Observable<DeviceResponse> {
+  addDevice(
+    payload: NewDevicePayload,
+    extras: { location: string; model?: string; description?: string }
+  ): Observable<DeviceResponse> {
     return this.http
-      .post<DeviceResponse>(this.apiUrl, payload, { headers: this.authHeaders() })
+      .post<DeviceResponse>(this.apiUrl, payload, {
+        headers: this.authHeaders(),
+      })
       .pipe(
-        tap(res => {
+        tap((res) => {
           // merge server data + our extras into a full Device
           const full: Device = {
             id: res.data.id,
@@ -37,12 +46,43 @@ export class DevicesService {
             status: res.data.status,
             location: extras.location,
             model: extras.model,
-            description: extras.description
+            description: extras.description,
           };
           // update in‑memory list + localStorage
           const updated = [...this._devices.value, full];
           this._devices.next(updated);
           localStorage.setItem('myDevices', JSON.stringify(updated));
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteDevice(id: string) {
+    return this.http
+      .delete(`${this.apiUrl}/${id}`, { headers: this.authHeaders() })
+      .pipe(
+        tap(() => {
+          // remove it from local cache
+          const updated = this._devices.value.filter((d) => d.id !== id);
+          this._devices.next(updated);
+          localStorage.setItem('myDevices', JSON.stringify(updated));
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  /** GET /devices/me → list of devices for current user */
+  listAll(): Observable<Device[]> {
+    return this.http
+      .get<{ data: Device[] }>(`${this.apiUrl}/me`, {
+        headers: this.authHeaders(),
+      })
+      .pipe(
+        map(response => response.data || []),
+        tap(devices => {
+          // update in‐memory cache & localStorage
+          this._devices.next(devices);
+          localStorage.setItem('myDevices', JSON.stringify(devices));
         }),
         catchError(this.handleError)
       );

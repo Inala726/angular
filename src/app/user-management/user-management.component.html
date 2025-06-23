@@ -1,0 +1,27 @@
+<div class="section">
+  <h2>User Management</h2>
+  <p class="subtitle">Manage all users in the system</p>
+  
+  <table class="dashboard-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.created }}</td>
+        <td class="actions">
+          <span *ngFor="let action of user.actions">{{ action }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

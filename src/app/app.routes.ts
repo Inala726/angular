@@ -1,4 +1,4 @@
-import { mapToCanActivate, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -39,15 +39,28 @@ export const routes: Routes = [
       );
       return m.SmartHomeDashboardComponent;
     },
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'admin/dashboard',
-    loadComponent: async () =>{
-      const m = await import(
-        './admin-dashboard/admin-dashboard.component'
-      );
-      return m.AdminDashboardComponent
+    loadComponent: async () => {
+      const m = await import('./admin-dashboard/admin-dashboard.component');
+      return m.AdminDashboardComponent;
+    },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/login',
+    loadComponent: async () => {
+      const m = await import('./admin-login/admin-login.component');
+      return m.AdminLoginComponent;
+    },
+  },
+  {
+    path: 'admin/register',
+    loadComponent: async()=>{
+      const m = await import('./admin-registration/admin-registration.component')
+      return m.AdminSignupComponent
     }
   }
 ];

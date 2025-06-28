@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   showNavbar = true;
 
   // Routes where navbar should be hidden
-  private hiddenNavbarRoutes = ['/signin', '/signup', '/login', '/register', '/verify-email', '/dashboard', '/admin/dashboard'];
+  private hiddenNavbarRoutes = ['/signin', '/signup', '/login', '/register', '/verify-email', '/dashboard', '/admin/dashboard', '/admin/login', '/admin/register'];
 
   constructor(private router: Router) {}
 

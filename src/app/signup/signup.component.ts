@@ -88,7 +88,7 @@ export class SignupComponent implements OnInit {
     if (value && value.includes('@')) {
       const domain = value.split('@')[1];
       const allowed = ['gmail.com','yahoo.com','hotmail.com','outlook.com'];
-      // if (!allowed.includes(domain)) return { invalidDomain: true };
+      if (!allowed.includes(domain)) return { invalidDomain: true };
     }
     return null;
   }
@@ -143,7 +143,7 @@ export class SignupComponent implements OnInit {
       role: 'USER'
     };
 
-    this.authService.userSignUp(formData).subscribe({
+    this.authService.signUp(formData).subscribe({
       next: (resp: ApiResponse) => {
         this.loading = false;
         if (!resp.error) {

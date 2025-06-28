@@ -25,11 +25,13 @@ export class VerifyEmailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute    // ← added
   ) {}
+role: 'USER' | 'ADMIN' = 'USER'; // Default fallback
 
   ngOnInit() {
     // Read the email from query parameters (?email=...)
     this.route.queryParams.subscribe(params => {
       this.email = params['email'] || '';
+      this.role = params['role'] === 'ADMIN' ? 'ADMIN' : 'USER';
     });
 
     this.otpForm = this.fb.group({
@@ -57,22 +59,23 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.otpForm.invalid) return;
-    this.loading = true;
-    this.apiError = '';
+  if (this.otpForm.invalid) return;
+  this.loading = true;
+  this.apiError = '';
 
-    this.auth.verifyOtp({ email: this.email, otp: this.code }).subscribe({
-      next: () => {
-        this.loading = false;
-        // Redirect to login with email prefill
-        this.router.navigate(['/signin']);
-      },
-      error: err => {
-        this.loading = false;
-        this.apiError = err.message;
-      }
-    });
-  }
+  this.auth.verifyOtp({ email: this.email, otp: this.code }).subscribe({
+    next: () => {
+      this.loading = false;
+      const redirect = this.role === 'ADMIN' ? '/admin/login' : '/signin';
+      this.router.navigate([redirect]);
+    },
+    error: err => {
+      this.loading = false;
+      this.apiError = err.message;
+    }
+  });
+}
+
 
   onResend() {
     this.resendLoading = true;

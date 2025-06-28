@@ -50,7 +50,7 @@ export class SigninComponent implements OnInit {
     this.apiError = '';
 
     const payload: LoginRequest = this.loginForm.value;
-    this.auth.userSignIn(payload).subscribe({
+    this.auth.signIn(payload).subscribe({
       next: (response:LoginResponse) => {
         this.loading = false;
         this.toast.show('Login successful', 'success')

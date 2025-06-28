@@ -1,1 +1,49 @@
-<p>admin-login works!</p>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Admin Login</h1>
+      <p>Access the admin dashboard</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="admin@example.com"
+          [class.error-input]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        >
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter password"
+          [class.error-input]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
+          <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</div>
+        </div>
+      </div>
+
+      <button type="submit" class="login-button" [disabled]="loading">
+        <span *ngIf="loading" class="spinner"></span>
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message-container">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

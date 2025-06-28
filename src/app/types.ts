@@ -21,26 +21,6 @@ export interface LoginResponse{
   accessToken:string
   refreshToken:string
 }
-
-// export interface NewDevice{
-//   name:string,
-//   protocol:string,
-//   status:'offline' | 'online'
-// }
-
-// export interface Device {
-//   id: string;
-//   name: string;
-//   protocol: string;
-//   status: 'online' | 'offline';
-//   ownerId: string;
-// }
-
-// export interface DeviceResponse {
-//   message: string;
-//   data: Device;
-// }
-
 export interface UserProfile {
   data: {
     id: string;
@@ -51,15 +31,14 @@ export interface UserProfile {
     emailVerified: boolean;
   };
 }
-
-// src/app/types.ts
-
+export interface ListUserResponse{
+  data: UserProfile[]
+}
 export interface NewDevicePayload {
   name: string;
   protocol: string;
   status: 'online' | 'offline';
 }
-
 export interface DeviceResponse {
   message: string;
   data: {
@@ -70,16 +49,23 @@ export interface DeviceResponse {
     ownerId: string;
   };
 }
-
-// the “full” device shape your UI actually cares about:
 export interface Device {
   id: string;
   name: string;
   protocol: string;
   status: 'online' | 'offline';
-  // extra fields you don’t send to the server:
-  location: string;
-  model?: string;
-  description?: string;
-  type?:string
+  ownerId: string;
+}
+export interface ListDevicesResponse {
+  data: Device[];
+}
+export interface Alert {
+  id: string;
+  type: string;
+  message: string;
+  timestamp: string;
+  deviceId: string;
+}
+export interface AlertsResponse {
+  data: Alert[];
 }

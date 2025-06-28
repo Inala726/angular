@@ -56,11 +56,4 @@ export const routes: Routes = [
       return m.AdminLoginComponent;
     },
   },
-  {
-    path: 'admin/register',
-    loadComponent: async()=>{
-      const m = await import('./admin-registration/admin-registration.component')
-      return m.AdminSignupComponent
-    }
-  }
 ];

@@ -59,23 +59,22 @@ role: 'USER' | 'ADMIN' = 'USER'; // Default fallback
   }
 
   onSubmit() {
-  if (this.otpForm.invalid) return;
-  this.loading = true;
-  this.apiError = '';
+    if (this.otpForm.invalid) return;
+    this.loading = true;
+    this.apiError = '';
 
-  this.auth.verifyOtp({ email: this.email, otp: this.code }).subscribe({
-    next: () => {
-      this.loading = false;
-      const redirect = this.role === 'ADMIN' ? '/admin/login' : '/signin';
-      this.router.navigate([redirect]);
-    },
-    error: err => {
-      this.loading = false;
-      this.apiError = err.message;
-    }
-  });
-}
-
+    this.auth.verifyOtp({ email: this.email, otp: this.code }).subscribe({
+      next: () => {
+        this.loading = false;
+        // Redirect to login with email prefill
+        this.router.navigate(['/signin']);
+      },
+      error: err => {
+        this.loading = false;
+        this.apiError = err.message;
+      }
+    });
+  }
 
   onResend() {
     this.resendLoading = true;

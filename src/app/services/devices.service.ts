@@ -44,9 +44,7 @@ export class DevicesService {
             name: res.data.name,
             protocol: res.data.protocol,
             status: res.data.status,
-            location: extras.location,
-            model: extras.model,
-            description: extras.description,
+            ownerId: res.data.ownerId
           };
           // update in‑memory list + localStorage
           const updated = [...this._devices.value, full];

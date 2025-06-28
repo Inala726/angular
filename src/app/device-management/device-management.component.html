@@ -2,7 +2,14 @@
   <h2>Device Management</h2>
   <p class="subtitle">Monitor and manage all devices in the system</p>
   
-  <table class="dashboard-table">
+  <!-- Loading state -->
+  <div *ngIf="loading">Loading devices...</div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Devices table -->
+  <table class="dashboard-table" *ngIf="!loading && !error">
     <thead>
       <tr>
         <th>Name</th>
@@ -20,13 +27,11 @@
           <span class="device-status" [ngClass]="{
             'online': device.status === 'online',
             'offline': device.status === 'offline',
-            'maintenance': device.status === 'maintenance'
           }">
             {{ device.status }}
           </span>
         </td>
         <td class="device-id">{{ device.ownerId }}</td>
-        <td class="device-id">{{ device.deviceId }}</td>
       </tr>
     </tbody>
   </table>

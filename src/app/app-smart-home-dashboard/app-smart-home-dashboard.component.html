@@ -66,7 +66,7 @@
                 ></ng-icon>
                 <div class="titles">
                   <h3>{{ d.name }}</h3>
-                  <small>{{ d.location }}</small>
+                  <small>{{ d.protocol }}</small>
                 </div>
               </div>
               <label class="switch">
@@ -92,10 +92,6 @@
               <span class="alert-count">⚠️ y</span>
             </div>
 
-            <!-- BRAND / MODEL -->
-            <div class="brand-model">
-              {{ d.model }} <span *ngIf="d.model">– {{ d.type }}</span>
-            </div>
 
             <!-- ACTION BUTTONS -->
             <div class="actions-row">

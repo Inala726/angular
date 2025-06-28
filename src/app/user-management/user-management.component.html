@@ -2,7 +2,14 @@
   <h2>User Management</h2>
   <p class="subtitle">Manage all users in the system</p>
   
-  <table class="dashboard-table">
+  <!-- Loading state -->
+  <div *ngIf="loading">Loading users...</div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Users table -->
+  <table class="dashboard-table" *ngIf="!loading && !error">
     <thead>
       <tr>
         <th>Name</th>
@@ -14,13 +21,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.created }}</td>
-        <td class="actions">
+        <td>{{ user.data.firstName }}</td>
+        <td>{{ user.data.email }}</td>
+        <td>{{ user.data.role }}</td>
+        <td>{{ user.data.id }}</td>
+        <!-- <td class="actions">
           <span *ngFor="let action of user.actions">{{ action }}</span>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>

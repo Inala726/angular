@@ -1,8 +1,15 @@
 <div class="section">
   <h2>System Alerts</h2>
   <p class="subtitle">Monitor all alerts across devices</p>
-  
-  <table class="dashboard-table">
+
+  <!-- Loading state -->
+  <div *ngIf="loading">Loading alerts...</div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Alerts table, shown only when loaded and no error -->
+  <table class="dashboard-table" *ngIf="!loading && !error">
     <thead>
       <tr>
         <th>Type</th>

@@ -21,13 +21,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
-        <td>{{ user.data.firstName }}</td>
-        <td>{{ user.data.email }}</td>
-        <td>{{ user.data.role }}</td>
-        <td>{{ user.data.id }}</td>
-        <!-- <td class="actions">
-          <span *ngFor="let action of user.actions">{{ action }}</span>
-        </td> -->
+        <!-- note the `.data` here matches `UserProfile.data` -->
+        <td>{{ user.firstName}} {{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.id }}</td>
       </tr>
     </tbody>
   </table>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../services/admin.service'; // Adjust path as needed
-import { UserProfile } from '../types'; // Adjust path as needed
+import { User } from '../types'; // Adjust path as needed
 
 @Component({
   selector: 'app-user-management',
@@ -10,7 +10,7 @@ import { UserProfile } from '../types'; // Adjust path as needed
   styleUrls: ['./user-management.component.scss']
 })
 export class UserManagementComponent implements OnInit {
-  users: UserProfile[] = [];
+  users: User[] = [];
   loading = true;
   error: string | null = null;
 
@@ -23,12 +23,12 @@ export class UserManagementComponent implements OnInit {
   private fetchUsers() {
     this.loading = true;
     this.adminService.getAllUsers().subscribe({
-      next: (users) => {
+      next: users => {
         this.users = users;
         this.loading = false;
       },
-      error: (error) => {
-        this.error = error.message;
+      error: err => {
+        this.error = err.message;
         this.loading = false;
       }
     });

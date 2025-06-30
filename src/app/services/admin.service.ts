@@ -12,7 +12,7 @@ import {
   Device,
   ListDevicesResponse,
   ListUserResponse,
-  UserProfile,
+  User,
 } from '../types';
 
 @Injectable({
@@ -49,7 +49,7 @@ export class AdminService {
   }
 
   /** Admin: fetch all users */
-  getAllUsers(): Observable<UserProfile[]> {
+  getAllUsers(): Observable<User[]> {
     return this.http
       .get<ListUserResponse>(this.usersURL, { headers: this.authHeaders() })
       .pipe(

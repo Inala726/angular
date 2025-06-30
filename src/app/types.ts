@@ -31,8 +31,9 @@ export interface UserProfile {
     emailVerified: boolean;
   };
 }
+
 export interface ListUserResponse{
-  data: UserProfile[]
+  data: User[]
 }
 export interface NewDevicePayload {
   name: string;
@@ -68,4 +69,12 @@ export interface Alert {
 }
 export interface AlertsResponse {
   data: Alert[];
+}
+export interface User{
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  emailVerified: boolean;
 }

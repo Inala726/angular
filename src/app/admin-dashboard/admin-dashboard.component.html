@@ -1,6 +1,11 @@
 <div class="admin-dashboard">
-  <h1>Admin Dashboard</h1>
-  
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <button class="btn-icon logout-btn" aria-label="Logout" (click)="onLogout()">
+      Logout
+    </button>
+  </div>
+
   <div class="navigation-tabs">
     <button 
       [class.active]="activeTab === 'users'" 
